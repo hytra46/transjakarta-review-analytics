@@ -1,0 +1,40 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+body {
+  background-color: #FFFCFB;
+  color: #0C1633;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Fokus keyboard harus selalu terlihat, untuk pengguna yang tidak memakai mouse. */
+:focus-visible {
+  outline: 2px solid #093FB4;
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Hormati pengguna yang mematikan animasi di pengaturan perangkatnya. */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Garis koridor TransJakarta di bawah header. */
+.pita-koridor {
+  height: 4px;
+  background: linear-gradient(
+    to right,
+    #093FB4 0%, #093FB4 46%,
+    #ED3500 46%, #ED3500 62%,
+    #0B8A6A 62%, #0B8A6A 80%,
+    #7A5AF8 80%, #7A5AF8 100%
+  );
+}

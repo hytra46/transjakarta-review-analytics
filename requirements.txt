@@ -1,0 +1,10 @@
+# Catatan: torch sengaja TIDAK ditulis di sini.
+# GitHub Actions memasang versi CPU-nya lebih dulu lewat perintah terpisah,
+# karena versi standar dari PyPI ukurannya lebih dari 2 GB.
+
+google-play-scraper==1.2.7
+transformers==4.48.0
+huggingface_hub==0.27.1
+safetensors==0.4.5
+supabase==2.11.0
+python-dotenv==1.0.1

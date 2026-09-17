@@ -1,0 +1,31 @@
+# Rahasia, jangan pernah masuk GitHub
+.env
+.env.local
+*.key
+
+# Model besar, disimpan di Hugging Face Hub bukan di GitHub
+*.pkl
+*.pt
+*.bin
+*.safetensors
+indobert-tj-hf/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.ipynb_checkpoints/
+
+# Data sementara
+*.csv
+!contoh_*.csv
+
+# Next.js
+dashboard/node_modules/
+dashboard/.next/
+dashboard/out/
+dashboard/.vercel/
+
+# Sistem
+.DS_Store
