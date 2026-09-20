@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { supabase } from "@/lib/supabase";
+import { getSupabase } from "@/lib/supabase";
 import { UKURAN_HALAMAN, type DataStats } from "@/lib/constants";
 
 // Data di-cache 60 detik. Kalau 100 orang membuka dashboard bersamaan,
@@ -41,6 +41,8 @@ export async function GET(req: NextRequest) {
   const { rpc, halaman, cari } = bacaFilter(req);
 
   try {
+    const supabase = getSupabase();
+
     // Tabel detail diambil terpisah, karena perlu paginasi dan pencarian teks.
     let query = supabase
       .from("reviews")
