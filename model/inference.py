@@ -70,7 +70,7 @@ def muat_model():
 
     kwargs = {}
     if TORCH_DTYPE == "float16":
-        kwargs["dtype"] = torch.float16
+        kwargs["torch_dtype"] = torch.float16
         log.info("Memuat model dalam float16 untuk menghemat RAM.")
 
     model = AutoModelForSequenceClassification.from_pretrained(
