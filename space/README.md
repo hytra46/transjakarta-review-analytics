@@ -38,12 +38,26 @@ Balasan:
 }
 ```
 
+## Cara deploy
+
+Folder ini dirancang untuk dideploy sebagai Web Service Docker di
+**Render.com** (gratis, tanpa kartu kredit). Lihat PANDUAN_LENGKAP.md
+Bagian 7 untuk langkah lengkapnya. Root Directory saat setup Render harus
+diarahkan ke folder `space` ini.
+
+Folder ini juga tetap kompatibel dipakai sebagai Hugging Face Space
+(SDK: Docker) kalau suatu saat Anda berlangganan PRO, tidak perlu
+mengubah apa pun.
+
 ## Variabel yang perlu diatur
 
-Di tab Settings Space ini, bagian Variables and secrets:
+Di Render: tab **Environment** pada Web Service ini.
+Di Hugging Face Space (kalau dipakai): tab **Settings**, bagian
+**Variables and secrets**.
 
 | Nama | Jenis | Isi |
 | --- | --- | --- |
 | `HF_MODEL_ID` | Variable | `USERNAME/indobert-tj-review` |
 | `MAX_LENGTH` | Variable | `64`, sesuai notebook training |
+| `TORCH_DTYPE` | Variable | `float16`, menghemat RAM kira-kira setengahnya (disarankan untuk RAM gratis yang terbatas) |
 | `HF_TOKEN` | Secret | Hanya perlu kalau repo model Anda privat |

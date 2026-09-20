@@ -32,6 +32,19 @@ MAX_LENGTH = int(os.getenv("MAX_LENGTH", "64"))
 # Jumlah teks yang diproses sekaligus. Angka kecil lebih aman untuk RAM terbatas.
 BATCH_SIZE = int(os.getenv("BATCH_SIZE", "32"))
 
+# Set TORCH_DTYPE=float16 untuk memuat model dalam presisi setengah, kira-kira
+# separuh ukuran RAM dari float32 (sekitar 220 MB, bukan 440 MB, untuk model
+# sebesar IndoBERT base). Berguna di platform dengan RAM gratis yang ketat
+# seperti Render (512 MB). Sedikit lebih lambat di CPU, tapi untuk Playground
+# yang dipakai satu per satu, itu tidak terasa. Biarkan kosong di GitHub
+# Actions, karena di sana RAM biasanya cukup dan presisi penuh lebih aman.
+TORCH_DTYPE = os.getenv("TORCH_DTYPE", "").strip().lower()
+
+# Batasi jumlah thread. Instance gratis biasanya cuma diberi sebagian kecil
+# dari satu core CPU, dan PyTorch yang mencoba memakai banyak thread di CPU
+# sekecil itu justru menghabiskan RAM tambahan untuk overhead tanpa manfaat.
+torch.set_num_threads(int(os.getenv("TORCH_NUM_THREADS", "1")))
+
 
 def bersihkan_teks(teks: str) -> str:
     """
@@ -54,7 +67,15 @@ def muat_model():
     log.info("Memuat model %s", HF_MODEL_ID)
     token = os.getenv("HF_TOKEN")  # hanya perlu kalau repo model Anda privat
     tokenizer = AutoTokenizer.from_pretrained(HF_MODEL_ID, token=token)
-    model = AutoModelForSequenceClassification.from_pretrained(HF_MODEL_ID, token=token)
+
+    kwargs = {}
+    if TORCH_DTYPE == "float16":
+        kwargs["dtype"] = torch.float16
+        log.info("Memuat model dalam float16 untuk menghemat RAM.")
+
+    model = AutoModelForSequenceClassification.from_pretrained(
+        HF_MODEL_ID, token=token, **kwargs
+    )
     model.eval()
 
     id2label = {int(i): str(l) for i, l in model.config.id2label.items()}

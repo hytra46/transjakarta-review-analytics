@@ -15,6 +15,10 @@ RUN pip install --no-cache-dir torch==2.5.1 --index-url https://download.pytorch
 
 COPY --chown=user . .
 
-# Hugging Face Spaces selalu mengharapkan aplikasi berjalan di port 7860.
-EXPOSE 7860
-CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "7860"]
+# Render (dan kebanyakan platform hosting lain) memberi tahu port yang harus
+# dipakai lewat environment variable PORT saat container dijalankan, bukan
+# lewat nomor tetap. Baris ENV di bawah cuma nilai default kalau PORT tidak
+# diisi (misalnya saat Anda coba jalankan container ini di komputer sendiri).
+ENV PORT=10000
+EXPOSE 10000
+CMD ["sh", "-c", "uvicorn app:app --host 0.0.0.0 --port ${PORT}"]
